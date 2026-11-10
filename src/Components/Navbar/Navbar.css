@@ -1,0 +1,221 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 5%;
+  /* At the top: fully transparent */
+  background: transparent;
+  backdrop-filter: none;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  transition: background 0.35s ease, backdrop-filter 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* Once user scrolls past 60px: dark frosted glass */
+.navbar--scrolled {
+  background: rgba(18, 10, 24, 0.88);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.45);
+}
+
+.nav-logo {
+  height: 44px;
+  flex-shrink: 0;
+}
+
+/* Desktop menu */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 30px;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-menu li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  cursor: pointer;
+}
+
+.nav-menu li:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+/* Active underline indicator */
+.nav-menu li img {
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  pointer-events: none;
+}
+
+.anchor-link {
+  text-decoration: none;
+  color: #fff;
+  transition: color 0.3s ease;
+  font-size: 15px;
+}
+
+.anchor-link:hover {
+  color: #d27eff;
+}
+
+/* Connect button (desktop) */
+.nav-connect {
+  padding: 10px 24px;
+  border-radius: 50px;
+  background: linear-gradient(267deg, #DA7C25 0.36%, #B923E1 102.06%);
+  cursor: pointer;
+  font-size: 15px;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.nav-connect:hover {
+  transform: scale(1.06);
+}
+
+/* Mobile hamburger buttons — hidden on desktop */
+.nav-mob-open,
+.nav-mob-close {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+.nav-mob-open img,
+.nav-mob-close img {
+  display: block;
+}
+
+/* Semi-transparent overlay behind the mobile menu */
+.nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* ─── Tablet & Mobile (≤ 1024px) ─────────────────────── */
+@media (max-width: 1024px) {
+  .nav-connect {
+    display: none;
+  }
+
+  /* Show hamburger open button */
+  .nav-mob-open {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    z-index: 1001;
+  }
+
+  .nav-mob-open img {
+    width: 26px;
+  }
+
+  /* Overlay becomes active when menu is open */
+  .nav-overlay {
+    display: block;
+  }
+
+  .nav-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Slide-in drawer — single consistent mechanism for ALL mobile sizes */
+  .nav-menu {
+    position: fixed;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    background-color: #1f0016;
+    height: 100vh;
+    width: 260px;
+    top: 0;
+    right: 0;
+    /* Start off-screen to the right */
+    transform: translateX(100%);
+    transition: transform 0.35s ease-in-out;
+    padding: 70px 28px 40px;
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  .nav-menu.open {
+    transform: translateX(0);
+  }
+
+  /* Show close button inside drawer */
+  .nav-mob-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 32px;
+    height: 32px;
+    z-index: 1001;
+  }
+
+  .nav-mob-close img {
+    width: 24px;
+  }
+
+  .nav-menu li {
+    font-size: 18px;
+    width: 100%;
+  }
+
+  .anchor-link {
+    font-size: 18px;
+  }
+}
+
+/* ─── Small phones (≤ 480px) ─────────────────────── */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 14px 4%;
+  }
+
+  .nav-logo {
+    height: 36px;
+  }
+
+  .nav-mob-open img {
+    width: 22px;
+  }
+
+  /* Full-width drawer on very small screens */
+  .nav-menu {
+    width: 100%;
+    padding: 65px 24px 40px;
+  }
+
+  .nav-menu li {
+    font-size: 17px;
+  }
+
+  .anchor-link {
+    font-size: 17px;
+  }
+}

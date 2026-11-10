@@ -139,3 +139,35 @@
     font-size: 0.8rem;
   }
 }
+
+@media (max-width: 360px) {
+  .hero {
+    padding: 1.8rem 4%;
+    gap: 0.9rem;
+  }
+
+  .hero-image {
+    max-width: 110px;
+  }
+
+  .hero-title {
+    font-size: 1.15rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.775rem;
+    width: 95%;
+  }
+
+  .hero-action {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .hero-button {
+    width: 100%;
+    max-width: 240px;
+    justify-content: center;
+  }
+}

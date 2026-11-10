@@ -37,7 +37,7 @@
 
 .mywork-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
   gap: 24px;
   width: 100%;
   max-width: 1100px;
@@ -105,9 +105,10 @@
   transform: translateX(5px);
 }
 
+/* Fix: 1024px h2 was larger than base — corrected */
 @media (max-width: 1024px) {
   .mywork-title h2 {
-    font-size: 1.9rem;
+    font-size: 1.7rem;
   }
 
   .mywork-title .theme-pattern {
@@ -146,7 +147,7 @@
   }
 
   .mywork-title h2 {
-    font-size: 1.55rem;
+    font-size: 1.35rem;
   }
 
   .mywork-title .theme-pattern {
@@ -162,5 +163,17 @@
   .mywork-showmore button {
     font-size: 0.875rem;
     padding: 8px 18px;
+  }
+}
+
+@media (max-width: 360px) {
+  .mywork-container {
+    grid-template-columns: 1fr;
+  }
+
+  .mywork-showmore button {
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    gap: 8px;
   }
 }

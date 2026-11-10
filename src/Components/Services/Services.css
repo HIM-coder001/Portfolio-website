@@ -32,7 +32,7 @@
 
 .services-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
   gap: 30px;
   width: 100%;
   max-width: 1100px;
@@ -181,5 +181,24 @@
 
   .services-format p {
     font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .services {
+    margin: 28px 3%;
+  }
+
+  .services-format {
+    padding: 16px;
+    gap: 10px;
+  }
+
+  .services-format h3 {
+    font-size: 0.85rem;
+  }
+
+  .services-format h4 {
+    font-size: 1rem;
   }
 }

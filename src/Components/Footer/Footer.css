@@ -44,6 +44,8 @@
   background: #32323c;
   transition: outline 0.2s;
   border: 2px solid transparent;
+  flex: 1;
+  min-width: 0;
 }
 
 .footer-email-input:focus-within {
@@ -62,7 +64,8 @@
   background: transparent;
   color: #c0c0c0;
   font-size: 0.9rem;
-  width: 190px;
+  width: 100%;
+  min-width: 0;
   font-family: inherit;
 }
 

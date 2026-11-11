@@ -89,6 +89,11 @@
     font-size: 0.875rem;
     width: 88%;
   }
+
+  /* Push hero down to clear the fixed navbar (~72px tall) */
+  .hero {
+    padding-top: 6rem;
+  }
 }
 
 @media (max-width: 768px) {

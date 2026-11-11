@@ -11,7 +11,6 @@
   transition: background 0.35s ease, backdrop-filter 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* Scrolled state — dark frosted glass */
 .navbar--scrolled {
   background: rgba(18, 10, 24, 0.88);
   backdrop-filter: blur(14px);
@@ -23,7 +22,7 @@
   flex-shrink: 0;
 }
 
-/* ── Desktop nav menu ───────────────────────────────── */
+/* ── Desktop nav menu ───────────────────────────── */
 .nav-menu {
   display: flex;
   align-items: center;
@@ -46,7 +45,6 @@
   transition: transform 0.3s ease;
 }
 
-/* Active underline indicator — targeted by class, not bare img */
 .nav-underline {
   position: absolute;
   top: 110%;
@@ -68,7 +66,7 @@
   color: #d27eff;
 }
 
-/* ── Desktop connect button ─────────────────────────── */
+/* ── Desktop connect button ─────────────────────── */
 .nav-connect {
   padding: 10px 24px;
   border-radius: 50px;
@@ -83,35 +81,12 @@
   transform: scale(1.06);
 }
 
-/* ── Hamburger buttons — hidden on desktop ──────────── */
-.nav-mob-open,
-.nav-mob-close {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  flex-shrink: 0;
-  line-height: 0;
-}
-
-.nav-mob-open img,
-.nav-mob-close img {
-  display: block;
-}
-
-/* Close button li — hidden on desktop */
-.nav-close-item {
-  display: none !important;
-}
-
-/* ── Overlay ────────────────────────────────────────── */
+/* ── Overlay ────────────────────────────────────── */
 .nav-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: 998;
-  /* Use visibility+opacity instead of display so transition works */
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -124,33 +99,70 @@
   pointer-events: auto;
 }
 
-/* ── Tablet & Mobile (≤ 1024px) ────────────────────── */
+/* ── Animated hamburger button — hidden on desktop ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+  z-index: 1001;
+}
+
+/* The three bars */
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity   0.25s ease,
+              width     0.3s ease;
+  transform-origin: center;
+}
+
+/* ── Burger → X transition ──────────────────────── */
+
+/* Top bar: rotate +45deg and move down */
+.nav-hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+/* Middle bar: fade out */
+.nav-hamburger.open span:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+
+/* Bottom bar: rotate -45deg and move up */
+.nav-hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ── Mobile & Tablet (≤ 1024px) ─────────────────── */
 @media (max-width: 1024px) {
-  /* Hide desktop-only items */
   .nav-connect {
     display: none;
   }
 
-  /* Show hamburger open button */
-  .nav-mob-open {
+  .nav-hamburger {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    z-index: 1001;
-    order: 3; /* push to far right */
   }
 
-  .nav-mob-open img {
-    width: 26px;
-  }
-
-  /* Slide-in drawer — 70% width max, never full screen */
+  /* Slide-in drawer — 70% width, never full screen */
   .nav-menu {
     position: fixed;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: flex-start;
     gap: 28px;
     background-color: #1f0016;
     height: 100vh;
@@ -160,37 +172,14 @@
     right: 0;
     transform: translateX(100%);
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 72px 28px 40px;
+    padding: 80px 28px 40px;
     z-index: 1000;
     overflow-y: auto;
-    justify-content: flex-start;
     box-shadow: -6px 0 24px rgba(0, 0, 0, 0.5);
   }
 
   .nav-menu.open {
     transform: translateX(0);
-  }
-
-  /* Show the close button li inside the drawer */
-  .nav-close-item {
-    display: flex !important;
-    position: absolute;
-    top: 18px;
-    right: 18px;
-    padding: 0;
-    cursor: default;
-  }
-
-  .nav-mob-close {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-  }
-
-  .nav-mob-close img {
-    width: 24px;
   }
 
   .nav-menu li {
@@ -201,13 +190,13 @@
     font-size: 17px;
   }
 
-  /* Hide the underline indicator inside the drawer (looks odd there) */
-  .nav-menu.open .nav-underline {
+  /* Hide the underline indicator inside the drawer */
+  .nav-underline {
     display: none;
   }
 }
 
-/* ── Small phones (≤ 480px) ────────────────────────── */
+/* ── Small phones (≤ 480px) ─────────────────────── */
 @media (max-width: 480px) {
   .navbar {
     padding: 12px 4%;
@@ -217,14 +206,13 @@
     height: 36px;
   }
 
-  .nav-mob-open img {
-    width: 22px;
+  .nav-hamburger span {
+    width: 20px;
   }
 
-  /* Slightly wider on small phones but still never full screen */
   .nav-menu {
     width: 75%;
-    padding: 65px 22px 40px;
+    padding: 72px 22px 40px;
   }
 
   .anchor-link {

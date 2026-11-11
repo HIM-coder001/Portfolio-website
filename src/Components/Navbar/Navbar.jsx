@@ -4,22 +4,48 @@ import logo from '../../assets/logo.svg'
 import underline from '../../assets/nav_underline.svg'
 import AnchorLink from 'react-anchor-link-smooth-scroll'
 
+const NAV_SECTIONS = ['home', 'about', 'services', 'portfolio', 'contact']
+
 const Navbar = () => {
   const [menu, setMenu] = useState("home")
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
+  // Scroll detection for navbar colour change
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // IntersectionObserver — updates active link as sections scroll into view
+  useEffect(() => {
+    const observers = []
+
+    NAV_SECTIONS.forEach((id) => {
+      const el = document.getElementById(id)
+      if (!el) return
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) setMenu(id)
+        },
+        { threshold: 0.35 }
+      )
+      observer.observe(el)
+      observers.push(observer)
+    })
+
+    return () => observers.forEach((o) => o.disconnect())
+  }, [])
+
+  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [isMenuOpen])
 
+  // Close on Escape
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') setIsMenuOpen(false) }
     window.addEventListener('keydown', onKey)
@@ -45,38 +71,29 @@ const Navbar = () => {
         aria-hidden="true"
       />
 
-      {/* Nav links drawer */}
+      {/* Nav links */}
       <ul className={`nav-menu ${isMenuOpen ? 'open' : ''}`}>
-        <li>
-          <AnchorLink className="anchor-link" offset={50} href="#home" onClick={() => handleNavLinkClick("home")}>
-            Home
-          </AnchorLink>
-          {menu === "home" && <img src={underline} alt="" aria-hidden="true" className="nav-underline" />}
-        </li>
-        <li>
-          <AnchorLink className="anchor-link" offset={50} href="#about" onClick={() => handleNavLinkClick("about")}>
-            About Me
-          </AnchorLink>
-          {menu === "about" && <img src={underline} alt="" aria-hidden="true" className="nav-underline" />}
-        </li>
-        <li>
-          <AnchorLink className="anchor-link" offset={50} href="#services" onClick={() => handleNavLinkClick("services")}>
-            Services
-          </AnchorLink>
-          {menu === "services" && <img src={underline} alt="" aria-hidden="true" className="nav-underline" />}
-        </li>
-        <li>
-          <AnchorLink className="anchor-link" offset={50} href="#portfolio" onClick={() => handleNavLinkClick("portfolio")}>
-            Portfolio
-          </AnchorLink>
-          {menu === "portfolio" && <img src={underline} alt="" aria-hidden="true" className="nav-underline" />}
-        </li>
-        <li>
-          <AnchorLink className="anchor-link" offset={50} href="#contact" onClick={() => handleNavLinkClick("contact")}>
-            Contact
-          </AnchorLink>
-          {menu === "contact" && <img src={underline} alt="" aria-hidden="true" className="nav-underline" />}
-        </li>
+        {[
+          { id: 'home',      label: 'Home' },
+          { id: 'about',     label: 'About Me' },
+          { id: 'services',  label: 'Services' },
+          { id: 'portfolio', label: 'Portfolio' },
+          { id: 'contact',   label: 'Contact' },
+        ].map(({ id, label }) => (
+          <li key={id}>
+            <AnchorLink
+              className="anchor-link"
+              offset={50}
+              href={`#${id}`}
+              onClick={() => handleNavLinkClick(id)}
+            >
+              {label}
+            </AnchorLink>
+            {menu === id && (
+              <img src={underline} alt="" aria-hidden="true" className="nav-underline" />
+            )}
+          </li>
+        ))}
       </ul>
 
       {/* Desktop connect button */}
@@ -86,7 +103,7 @@ const Navbar = () => {
         </AnchorLink>
       </div>
 
-      {/* Single animated hamburger ↔ X toggle */}
+      {/* Animated hamburger ↔ X */}
       <button
         className={`nav-hamburger ${isMenuOpen ? 'open' : ''}`}
         onClick={toggleMenu}

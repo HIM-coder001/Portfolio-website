@@ -5,8 +5,10 @@
   padding: 14px 5%;
   background: transparent;
   backdrop-filter: none;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 999;
   transition: background 0.35s ease, backdrop-filter 0.35s ease, box-shadow 0.35s ease;
 }
@@ -153,12 +155,8 @@
     display: none;
   }
 
-  /* Fix navbar to top on mobile so it stays visible while scrolling */
+  /* Always-on frosted glass on mobile (no scroll threshold) */
   .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
     background: rgba(18, 10, 24, 0.92);
     backdrop-filter: blur(14px);
   }
